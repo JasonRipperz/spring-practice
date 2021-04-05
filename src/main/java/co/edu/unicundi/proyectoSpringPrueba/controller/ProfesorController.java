@@ -37,15 +37,6 @@ public class ProfesorController {
 	
 	@Autowired
 	private IProfesorService profesorService;
-	/*
-	@ExceptionHandler(HttpClientErrorException.BadRequest.class)
-	  public ResponseEntity<String> handleNoSuchElementFoundException(
-			  HttpClientErrorException.BadRequest exception
-	  ) {
-	    return new ResponseEntity<String> ("neeelll",HttpStatus.CREATED);
-	  }
-	*/
-	
 	
 	
 	@ApiOperation(value = "Listar todos los docentes", notes = "Servicio para listar todos los docentes")
