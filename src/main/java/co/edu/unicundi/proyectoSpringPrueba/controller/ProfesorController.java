@@ -98,9 +98,9 @@ public class ProfesorController {
             @ApiResponse(code = 204, message = "NO_CONTENT. Se modificó correctamente el docente"),
             @ApiResponse(code = 404, message = "NOT_FOUND. No se encontro un docente asociado al id", response = ExceptionResponse.class),
             @ApiResponse(code = 500, message = "Error inesperado del sistema",  response = ExceptionResponse.class) })
-	@DeleteMapping("eliminar/{cedula}") 
-	public ResponseEntity<?> eliminar(@PathVariable String cedula) throws ObjectNotFoundException {
-		profesorService.eliminar(cedula);
+	@DeleteMapping("eliminar/{id}") 
+	public ResponseEntity<?> eliminar(@PathVariable int id) throws ObjectNotFoundException {
+		profesorService.eliminar(id);
 		return new ResponseEntity<Object> (HttpStatus.NO_CONTENT);	
 	}
 	

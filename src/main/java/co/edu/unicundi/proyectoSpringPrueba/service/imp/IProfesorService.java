@@ -19,5 +19,5 @@ public interface IProfesorService {
 	
 	public void editar(Profesor profesor)  throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException;
 	
-	public void eliminar(String cedula) throws ObjectNotFoundException;
+	public void eliminar(int id) throws ObjectNotFoundException;
 }

@@ -108,19 +108,22 @@ public class ProfesorService implements IProfesorService {
 	}
 
 	@Override
-	public void eliminar(String cedula) throws ObjectNotFoundException {
+	public void eliminar(int id) throws ObjectNotFoundException {
+		obtenerPorId(id);
+		IProfesorRepo.deleteById(id);
+		/*
 		Profesor profesorEliminar = new Profesor();
 		for (Profesor profesor : profesores) {
 			if (profesor.getCedula().equals(cedula)) {
 				profesorEliminar = profesor;
 			}
 		}
-
+		
 		if (profesorEliminar.getId() != null) {
 			profesores.remove(profesorEliminar);
 		} else {
 			throw new ObjectNotFoundException("No existe un docente con la cédula ingresada");
-		}
+		}*/
 	}
 
 	private void validarDocente(Profesor profesor) throws FieldValidationException {
