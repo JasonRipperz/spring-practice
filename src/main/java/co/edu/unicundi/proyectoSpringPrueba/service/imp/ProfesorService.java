@@ -3,16 +3,22 @@ package co.edu.unicundi.proyectoSpringPrueba.service.imp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.service.spi.InjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.edu.unicundi.proyectoSpringPrueba.dto.Profesor;
+import co.edu.unicundi.proyectoSpringPrueba.entity.Profesor;
 import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
+import co.edu.unicundi.proyectoSpringPrueba.repository.IProfesorRepository;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 
 @Service
 public class ProfesorService implements IProfesorService {
-
+	
+	@Autowired
+	private IProfesorRepository IProfesorRepo;
+	
 	public List<Profesor> profesores = new ArrayList<>();
 
 	public ProfesorService() {
@@ -21,6 +27,7 @@ public class ProfesorService implements IProfesorService {
 
 	@Override
 	public List<Profesor> listar() {
+		//return IProfesorRepo.findAll();
 		return profesores;
 	}
 
@@ -48,6 +55,12 @@ public class ProfesorService implements IProfesorService {
 
 	@Override
 	public Profesor obtener(String cedula) throws ObjectNotFoundException {
+		
+		/**
+		 * Profesor profesor = IprofesorRepo.findById(id).orElseThrow(
+		 * () -> new ObjectNotFoundException("No existe un docente con el número de cédula ingresado"));
+		 * return profesor; 
+		 */
 		Profesor profesorObtenido = new Profesor();
 		for (Profesor profesor : profesores) {
 			if (profesor.getCedula().equals(cedula)) {

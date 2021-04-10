@@ -2,7 +2,7 @@ package co.edu.unicundi.proyectoSpringPrueba.service.imp;
 
 import java.util.List;
 
-import co.edu.unicundi.proyectoSpringPrueba.dto.Profesor;
+import co.edu.unicundi.proyectoSpringPrueba.entity.Profesor;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
