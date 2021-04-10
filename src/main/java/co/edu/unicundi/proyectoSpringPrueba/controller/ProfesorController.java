@@ -49,6 +49,16 @@ public class ProfesorController {
 		return new ResponseEntity<List<Profesor>> (profesorService.listar(), profesorService.listar().size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
 	}
 	
+	@ApiOperation(value = "Obtener un docente por id", notes = "Servicio para obtener un docente por id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK. Se retorno correctamente el docente", response = Profesor.class),
+            @ApiResponse(code = 404, message = "NOT_FOUND. No se encontro un docente asociado al documento ingresado)", response = ExceptionResponse.class),
+            @ApiResponse(code = 500, message = "Error inesperado del sistema",  response = ExceptionResponse.class) })
+	@GetMapping("/obtenerPorId/{id}")
+	public ResponseEntity<Profesor> obtenerPorId(@PathVariable int id) throws ObjectNotFoundException {
+		return new ResponseEntity<Profesor> (profesorService.obtenerPorId(id), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "Guardar un docente", notes = "Servicio para guardar un docente")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created. Se guardó exitosamente el docente", response = Object.class),

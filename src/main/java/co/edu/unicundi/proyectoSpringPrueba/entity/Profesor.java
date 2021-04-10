@@ -18,12 +18,15 @@ public class Profesor {
 	private Integer id;
 	
 	@ApiModelProperty(value = "Nombre del docente" , position = 1, required = true, accessMode = AccessMode.READ_WRITE)
+	@Column(name = "nombre")
 	private String nombre;
 	
 	@ApiModelProperty(value = "Apellido del docente" , position = 2, required = true, accessMode = AccessMode.READ_WRITE)
+	@Column(name = "apellido")
 	private String apellido;
 	
 	@ApiModelProperty(value = "Documento del docente" , position = 3, required = true, accessMode = AccessMode.READ_WRITE)
+	@Column(name = "cedula")
 	private String cedula;
 	
 	public Profesor() {

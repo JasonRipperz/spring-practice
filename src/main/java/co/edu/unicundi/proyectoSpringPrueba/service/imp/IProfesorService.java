@@ -13,6 +13,8 @@ public interface IProfesorService {
 	
 	public Profesor obtener(String cedula) throws ObjectNotFoundException;
 	
+	public Profesor obtenerPorId(int id) throws ObjectNotFoundException;
+	
 	public void guardar(Profesor profesor) throws RepeatedObjectException, FieldValidationException;
 	
 	public void editar(Profesor profesor)  throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException;
