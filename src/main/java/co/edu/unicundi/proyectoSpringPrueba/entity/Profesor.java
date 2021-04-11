@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,14 +38,28 @@ public class Profesor {
 	private String apellido;
 	
 	@ApiModelProperty(value = "Documento del docente" , position = 3, required = true, accessMode = AccessMode.READ_WRITE)
-	@NotNull(message = "El documento es obligatorio")
-	@Size(min = 3, max = 50, message = "El documento debe tener de 5 a 10 caracteres")
+	//@NotNull(message = "El documento es obligatorio")
+	@Size(min = 3, max = 10, message = "El documento debe tener de 5 a 10 caracteres")
+	@NotEmpty(message = "empty shit")
 	@Column(name = "cedula")
 	private String cedula;
+	
 	
 	public Profesor() {
 	
 	}
+
+	
+	public Profesor(
+			@NotNull(message = "El nombre es obligatorio") @Size(min = 3, max = 50, message = "El nombre debe tener de 3 a 50 caracteres") String nombre,
+			@NotNull(message = "El apellido es obligatorio") @Size(min = 3, max = 50, message = "El apellido debe tener de 3 a 50 caracteres") String apellido,
+			@NotNull(message = "El documento es obligatorio") @Size(min = 3, max = 10, message = "El documento debe tener de 5 a 10 caracteres") String cedula) {
+		super();
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.cedula = cedula;
+	}
+
 
 	/**
 	 * @return the id
