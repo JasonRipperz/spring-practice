@@ -17,7 +17,7 @@ import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 public class ProfesorService implements IProfesorService {
 
 	@Autowired
-	private IProfesorRepository IProfesorRepo;
+	private IProfesorRepository profesorRepo;
 
 	public List<Profesor> profesores = new ArrayList<>();
 
@@ -27,7 +27,7 @@ public class ProfesorService implements IProfesorService {
 
 	@Override
 	public List<Profesor> listar() {
-		return IProfesorRepo.findAll();
+		return profesorRepo.findAll();
 	}
 
 	/**
@@ -37,20 +37,9 @@ public class ProfesorService implements IProfesorService {
 	@Override
 	public void guardar(Profesor profesor) throws RepeatedObjectException, FieldValidationException {
 
-		this.validarDocente(profesor);
-		boolean flag = true;
-		for (Profesor profe : profesores) {
-			if (profe.getCedula().equals(profesor.getCedula())) {
-				flag = false;
-				break;
-			}
-		}
-		if (flag) {
-			profesor.setId(profesores.size());
-			profesores.add(profesor);
-		} else {
-			throw new RepeatedObjectException("Ya existe un profesor creado con el mismo documento");
-		}
+		profesorRepo.save(profesor);
+	//	throw new RepeatedObjectException("Ya existe un profesor creado con el mismo documento");
+		
 	}
 
 	@Override
@@ -74,75 +63,27 @@ public class ProfesorService implements IProfesorService {
 	public void editar(Profesor profesor)
 			throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException {
 
-		this.validarDocente(profesor);
-
-		Profesor profesorObtenido = new Profesor();
-		Profesor profesorCedula = new Profesor();
-		for (Profesor profe : profesores) {
-			if (profesor.getId().equals(profe.getId())) {
-				profesorObtenido = profe;
-				break;
-			}
-		}
-
-		for (Profesor profe : profesores) {
-			if (profesor.getCedula().equals(profe.getCedula())) {
-				profesorCedula = profe;
-				break;
-			}
-		}
-
-		if (profesorObtenido.getId() == null) {
-			throw new ObjectNotFoundException("No existe un docente con el ID ingresado");
-		}
-
-		if (profesorCedula.getId() == null || profesorCedula.getId() == profesorObtenido.getId()) {
-			profesorObtenido.setNombre(profesor.getNombre());
-			profesorObtenido.setApellido(profesor.getApellido());
-			profesorObtenido.setCedula(profesor.getCedula());
-
-		} else {
-			throw new RepeatedObjectException("Ya existe un profesor creado con el mismo documento");
-		}
+		Profesor profesorBd = obtenerPorId(profesor.getId());
+		
+		profesorBd.setNombre(profesor.getNombre());
+		profesorBd.setApellido(profesor.getApellido());
+		profesorBd.setCedula(profesor.getCedula());
+		
+		profesorRepo.save(profesorBd);
+			//throw new RepeatedObjectException("Ya existe un profesor creado con el mismo documento");
+		
 
 	}
 
 	@Override
 	public void eliminar(int id) throws ObjectNotFoundException {
 		obtenerPorId(id);
-		IProfesorRepo.deleteById(id);
-		/*
-		Profesor profesorEliminar = new Profesor();
-		for (Profesor profesor : profesores) {
-			if (profesor.getCedula().equals(cedula)) {
-				profesorEliminar = profesor;
-			}
-		}
-		
-		if (profesorEliminar.getId() != null) {
-			profesores.remove(profesorEliminar);
-		} else {
-			throw new ObjectNotFoundException("No existe un docente con la cédula ingresada");
-		}*/
-	}
-
-	private void validarDocente(Profesor profesor) throws FieldValidationException {
-		if (profesor.getNombre().length() < 3) {
-			throw new FieldValidationException("El nombre debe tener mínimo 3 caracteres");
-		}
-
-		if (profesor.getApellido().length() < 3) {
-			throw new FieldValidationException("El apellido debe tener mínimo 3 caracteres");
-		}
-
-		if (profesor.getCedula().length() < 5) {
-			throw new FieldValidationException("El documento debe tener mínimo 5 caracteres");
-		}
+		profesorRepo.deleteById(id);
 	}
 
 	@Override
 	public Profesor obtenerPorId(int id) throws ObjectNotFoundException {
-		Profesor profesor = IProfesorRepo.findById(id).orElseThrow(
+		Profesor profesor = profesorRepo.findById(id).orElseThrow(
 				() -> new ObjectNotFoundException("No existe un docente con el id ingresado"));
 		return profesor;
 	}

@@ -3,6 +3,8 @@ package co.edu.unicundi.proyectoSpringPrueba.controller;
 import java.lang.reflect.Array;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,9 +67,9 @@ public class ProfesorController {
             @ApiResponse(code = 409, message = "Conflict. Ya existe un usuario con el mismo documento ingresado)", response = ExceptionResponse.class),
             @ApiResponse(code = 500, message = "Error inesperado del sistema",  response = ExceptionResponse.class) })
 	@PostMapping("/guardar")
-	public ResponseEntity<?> guardar(@RequestBody Profesor profesor) throws RepeatedObjectException, FieldValidationException {
+	public ResponseEntity<?> guardar(@Valid @RequestBody Profesor profesor) throws RepeatedObjectException, FieldValidationException {
 		profesorService.guardar(profesor);
-		return new ResponseEntity<Object> ("Profesor creado",HttpStatus.CREATED);
+		return new ResponseEntity<Object> ("Profesor creado", HttpStatus.CREATED);
 	}
 	
 	@ApiOperation(value = "Obtener un docente", notes = "Servicio para obtener un docente por su cédula")
