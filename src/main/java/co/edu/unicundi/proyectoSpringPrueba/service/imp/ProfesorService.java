@@ -35,7 +35,7 @@ public class ProfesorService implements IProfesorService {
 	 * 
 	 */
 	@Override
-	public void guardar(@Valid Profesor profesor) throws RepeatedObjectException, FieldValidationException {
+	public void guardar(Profesor profesor) throws RepeatedObjectException, FieldValidationException {
 		if(buscarPorCedula(profesor.getCedula()) == null) {
 			profesorRepo.save(profesor);
 		}else {
@@ -62,19 +62,22 @@ public class ProfesorService implements IProfesorService {
 	@Override
 	public void editar(Profesor profesor)
 			throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException {
-
-		Profesor profesorBd = obtenerPorId(profesor.getId());
 		
-		if(profesor.getCedula().equals(profesorBd.getCedula())) {
+		Profesor profesorCedula = buscarPorCedula(profesor.getCedula());
+	
+		if( profesorCedula == null || profesorCedula.getId() == profesor.getId()) {
+			Profesor profesorBd = obtenerPorId(profesor.getId());
+			
 			profesorBd.setNombre(profesor.getNombre());
 			profesorBd.setApellido(profesor.getApellido());
 			profesorBd.setCedula(profesor.getCedula());
+			
+			profesorRepo.save(profesorBd);
+		
+		}else {
+			throw new RepeatedObjectException("Ya existe un profesor creado con el mismo documento");
 		}
 		
-		profesorRepo.save(profesorBd);
-		//throw new RepeatedObjectException("Ya existe un profesor creado con el mismo documento");
-		
-
 	}
 
 	@Override

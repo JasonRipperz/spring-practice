@@ -9,6 +9,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import co.edu.unicundi.proyectoSpringPrueba.dto.ExceptionResponse;
@@ -18,6 +19,15 @@ import co.edu.unicundi.proyectoSpringPrueba.dto.ExceptionResponse;
 @RestControllerAdvice
 public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 
+	
+	@Override
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException e, HttpHeaders headers,
+			HttpStatus status, WebRequest request) {
+		e.printStackTrace();
+		ExceptionResponse response = new ExceptionResponse(Integer.toString(HttpStatus.NOT_FOUND.value()),
+				HttpStatus.NOT_FOUND.name(),"El servicio no existe o está mal escrito -" + e.getMessage(), request.getDescription(false));
+		return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
+	}
 	/**
 	 * Body incorrecto
 	 */
