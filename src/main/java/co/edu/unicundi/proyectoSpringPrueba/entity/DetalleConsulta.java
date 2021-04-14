@@ -26,6 +26,9 @@ public class DetalleConsulta {
 	@Column(name = "tratamiento", length = 255, nullable = false)
 	private String tratamiento;
 	
+	@Column(name = "id_consulta", nullable = false, insertable = false, updatable = false)
+	private Integer idConsulta;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_consulta", nullable = false, foreignKey = @ForeignKey(name = "FK_Consulta"))
 	private Consulta consulta;
@@ -61,6 +64,20 @@ public class DetalleConsulta {
 
 	public void setConsulta(Consulta consulta) {
 		this.consulta = consulta;
+	}
+
+	/**
+	 * @return the idConsulta
+	 */
+	public Integer getIdConsulta() {
+		return idConsulta;
+	}
+
+	/**
+	 * @param idConsulta the idConsulta to set
+	 */
+	public void setIdConsulta(Integer idConsulta) {
+		this.idConsulta = idConsulta;
 	}
 	
 	

@@ -2,6 +2,9 @@ package co.edu.unicundi.proyectoSpringPrueba.service.imp;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import co.edu.unicundi.proyectoSpringPrueba.entity.Consulta;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
@@ -9,7 +12,7 @@ import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
 
 public interface IConsultaService {
 	
-	public List<Consulta> listar();
+	public List<Consulta> listar(Pageable pageable);
 	
 	public Consulta obtenerPorId(int id) throws ObjectNotFoundException;
 	
