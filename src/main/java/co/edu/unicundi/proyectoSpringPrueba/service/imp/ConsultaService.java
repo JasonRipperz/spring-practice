@@ -15,7 +15,6 @@ import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
 import co.edu.unicundi.proyectoSpringPrueba.repository.IConsultaRepository;
 import co.edu.unicundi.proyectoSpringPrueba.repository.IProfesorRepository;
-import co.edu.unicundi.proyectoSpringPrueba.util.PageRequest;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 
 @Service
