@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +33,13 @@ public class DetalleConsultaService implements IDetalleConsultaService {
 	}
 
 	@Override
-	public List<DetalleConsulta> listar(Pageable pageable) {
-		List<DetalleConsulta> listaConsulta =  detConsultaRepo.findAll(pageable).getContent();
+	public Page<DetalleConsulta> listar(Pageable pageable) {
+		Page<DetalleConsulta> listaConsulta =  detConsultaRepo.findAll(pageable);
 		return listaConsulta;
 	}
 
-	/**
-	 * @throws FieldValidationException
-	 * @throws ObjectNotFoundException 
-	 * 
-	 */
 	@Override
 	public void guardar(DetalleConsulta detalleConsulta) throws RepeatedObjectException, ObjectNotFoundException {
-		//detalleConsulta.setId(null);
-		
 		detalleConsulta.setConsulta(consultaRepo.obtenerPorId(detalleConsulta.getIdConsulta()));
 		detConsultaRepo.save(detalleConsulta);
 	}
@@ -69,7 +63,7 @@ public class DetalleConsultaService implements IDetalleConsultaService {
 	}
 
 	@Override
-	public void eliminar(int id) throws ObjectNotFoundException {
+	public void eliminar(Integer id) throws ObjectNotFoundException {
 		if (detConsultaRepo.validarDetalleConsultaPorId(id) > 0) {
 			detConsultaRepo.deleteById(id);
 		}else {
@@ -78,7 +72,7 @@ public class DetalleConsultaService implements IDetalleConsultaService {
 	}
 
 	@Override
-	public DetalleConsulta obtenerPorId(int id) throws ObjectNotFoundException {
+	public DetalleConsulta obtenerPorId(Integer id) throws ObjectNotFoundException {
 		DetalleConsulta profesor = detConsultaRepo.findById(id).orElseThrow(
 				() -> new ObjectNotFoundException("No existe un detalle de consulta con el id ingresado"));
 		return profesor;

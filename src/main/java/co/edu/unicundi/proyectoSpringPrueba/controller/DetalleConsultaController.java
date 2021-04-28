@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +49,9 @@ public class DetalleConsultaController {
 			@ApiResponse(code = 204, message = "No Content.No hay registro de datos en sistema)", response = Array.class),
 			@ApiResponse(code = 500, message = "Error inesperado del sistema", response = ExceptionResponse.class) })
 	@GetMapping("/listar")
-	public ResponseEntity<List<DetalleConsulta>> listar(Pageable pageable) {
-		return new ResponseEntity<List<DetalleConsulta>>(detConsultaRepo.listar(pageable),
-				detConsultaRepo.listar(pageable).size() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+	public ResponseEntity<Page<DetalleConsulta>> listar(Pageable pageable) {
+		return new ResponseEntity<Page<DetalleConsulta>>(detConsultaRepo.listar(pageable),
+				detConsultaRepo.listar(pageable).getSize() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
 	}
 
 	@ApiOperation(value = "Obtener un detalle por id", notes = "Servicio para obtener por id")
@@ -68,7 +69,7 @@ public class DetalleConsultaController {
 			@ApiResponse(code = 500, message = "Error inesperado del sistema", response = ExceptionResponse.class) })
 	@PostMapping("/guardar")
 	public ResponseEntity<?> guardar(@Valid @RequestBody DetalleConsulta consulta)
-			throws RepeatedObjectException, ObjectNotFoundException {
+			throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException {
 		detConsultaRepo.guardar(consulta);
 		return new ResponseEntity<Object>("Detalle creado", HttpStatus.CREATED);
 	}

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.hibernate.service.spi.InjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,8 @@ public class ConsultaService implements IConsultaService {
 	}
 
 	@Override
-	public List<Consulta> listar(Pageable pageable) {
-		List<Consulta> listaConsulta =  consultaRepo.findAll(pageable).getContent();
+	public Page<Consulta> listar(Pageable pageable) {
+		Page<Consulta> listaConsulta =  consultaRepo.findAll(pageable);
 		for (Consulta consulta : listaConsulta) {
 			consulta.setDetalleConsulta(null);
 		}
@@ -70,7 +71,7 @@ public class ConsultaService implements IConsultaService {
 	}
 
 	@Override
-	public void eliminar(int id) throws ObjectNotFoundException {
+	public void eliminar(Integer id) throws ObjectNotFoundException {
 		if (consultaRepo.validarConsultaPorId(id) > 0) {
 			consultaRepo.deleteById(id);
 		}else {
@@ -79,7 +80,7 @@ public class ConsultaService implements IConsultaService {
 	}
 
 	@Override
-	public Consulta obtenerPorId(int id) throws ObjectNotFoundException {
+	public Consulta obtenerPorId(Integer id) throws ObjectNotFoundException {
 		Consulta profesor = consultaRepo.findById(id).orElseThrow(
 				() -> new ObjectNotFoundException("No existe una consulta con el id ingresado"));
 		return profesor;
