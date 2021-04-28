@@ -85,5 +85,14 @@ public class ConsultaService implements IConsultaService {
 				() -> new ObjectNotFoundException("No existe una consulta con el id ingresado"));
 		return profesor;
 	}
+
+	@Override
+	public Page<Consulta> findByDetalleConsulta_diagnostico(String diagnostico, Pageable pageable) {
+		Page<Consulta> listaConsulta =  consultaRepo.findByDetalleConsulta_diagnostico(diagnostico, pageable);
+		for (Consulta consulta : listaConsulta) {
+			consulta.setDetalleConsulta(null);
+		}
+		return listaConsulta;
+	}
 	
 }

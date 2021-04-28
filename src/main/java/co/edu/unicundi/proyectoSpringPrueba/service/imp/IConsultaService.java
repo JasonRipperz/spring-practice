@@ -13,4 +13,5 @@ import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
 
 public interface IConsultaService extends ICrud<Consulta, Integer>  {
 	
+	public  Page<Consulta> findByDetalleConsulta_diagnostico(String diagnostico, Pageable pageable);
 }

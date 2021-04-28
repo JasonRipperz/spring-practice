@@ -95,5 +95,10 @@ public class ConsultaController {
 		consultaService.eliminar(id);
 		return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
 	}
-
+	
+	@GetMapping("/listarPorDiagnostico")
+	public ResponseEntity<Page<Consulta>> listarPorDiagnostico(String diagnostico, Pageable pageable) {
+		return new ResponseEntity<Page<Consulta>>(consultaService.findByDetalleConsulta_diagnostico(diagnostico, pageable),
+				consultaService.listar(pageable).getSize() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+	}
 }
