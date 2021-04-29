@@ -1,11 +1,15 @@
 package co.edu.unicundi.proyectoSpringPrueba.exception;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -68,6 +72,18 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<Object>(response, HttpStatus.METHOD_NOT_ALLOWED);
 	}
 
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		List<String> listaErrores = new ArrayList<String>();
+		e.getBindingResult().getFieldErrors().forEach(fieldError ->{
+			listaErrores.add("Error en el campo: " + fieldError.getField() +" El valor ingresado: " + fieldError.getRejectedValue() + " no es válido, el campo: " + fieldError.getDefaultMessage());
+		});
+		
+		ExceptionResponse response = new ExceptionResponse(HttpStatus.BAD_REQUEST.value() + "", HttpStatus.BAD_REQUEST.toString(), listaErrores.toString(), request.getDescription(false));
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST); 
+	}
+	
 	/**
 	 * Validación de campos
 	 * 
@@ -131,10 +147,5 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 				request.getDescription(false));
 		return new ResponseEntity<ExceptionResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
-	/*
-	 * Alternativa para obtener la url actual
-	 * ((ServletWebRequest)request).getRequest().getRequestURI().toString()
-	 */
 
 }

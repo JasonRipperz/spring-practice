@@ -21,19 +21,19 @@ public class Medico {
 	private Integer id;
 	
 	@NotNull(message = "Nombre es requerido")
-	@Size(min = 3, max = 30, message = "Nombre entre 3 y 30 caracteres")
+	@Size(min = 3, max = 30, message = "Nombre  debe tener entre 3 y 30 caracteres")
 	@Column(name = "nombre", length = 30, nullable = false)
 	private String nombre;
 
 	@NotNull(message = "Apellido es requerido")
-	@Size(min = 3, max = 30, message = "Apellido entre 3 y 30 caracteres")	
+	@Size(min = 3, max = 30, message = "Apellido debe tener entre 3 y 30 caracteres")	
 	@Column(name = "apellido", length = 30, nullable = false)
 	private String apellido;
 	
 	@Column(name = "correo", length = 60, nullable = false)
 	private String correo;	
 	
-	@NotNull(message = "Direccion obligatoria")
+	@NotNull(message = "La dirección obligatoria")
 	@OneToOne(mappedBy = "medico", cascade =  CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Direccion direccion;
 	

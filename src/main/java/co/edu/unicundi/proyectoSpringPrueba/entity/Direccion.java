@@ -74,4 +74,20 @@ public class Direccion {
 		this.pais = pais;
 	}
 
+	/**
+	 * @return the medico
+	 */
+	@JsonIgnore
+	public Medico getMedico() {
+		return medico;
+	}
+
+	/**
+	 * @param medico the medico to set
+	 */
+	public void setMedico(Medico medico) {
+		this.medico = medico;
+	}
+	
+	
 }
