@@ -13,5 +13,9 @@ import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
 
 public interface IMedicoService extends ICrud<Medico, Integer>  {
 	
-	//public  Page<Consulta> findByDetalleConsulta_diagnostico(String diagnostico, Pageable pageable);
+	 public Page<Medico> findByNombreIgnoreCase(String nombre, Pageable pageable);
+	 
+	 public Page<Medico> findByApellidoIgnoreCase(String apellido, Pageable pageable);
+	 
+	 public Page<Medico> findByCorreoIgnoreCase(String correo, Pageable pageable);
 }

@@ -32,15 +32,11 @@ public class MedicoService implements IMedicoService {
 
 	@Override
 	public Page<Medico> listar(Pageable pageable) {
-		Page<Medico> listaConsulta =  medicoRepo.findAll(pageable);
-		
-		return listaConsulta;
+		Page<Medico> lista = medicoRepo.findAll(pageable);
+
+		return lista;
 	}
 
-	/**
-	 * @throws FieldValidationException
-	 * 
-	 */
 	@Override
 	public void guardar(Medico medico) throws RepeatedObjectException, FieldValidationException {
 		medico.setId(null);
@@ -51,10 +47,10 @@ public class MedicoService implements IMedicoService {
 	@Override
 	public void editar(Medico medico)
 			throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException {
-	
-		if(medico.getId() != null) {
+
+		if (medico.getId() != null) {
 			Medico medicoBd = obtenerPorId(medico.getId());
-			
+
 			medicoBd.setNombre(medico.getNombre());
 			medicoBd.setApellido(medico.getApellido());
 			medicoBd.setCorreo(medico.getCorreo());
@@ -62,29 +58,47 @@ public class MedicoService implements IMedicoService {
 			medicoBd.getDireccion().setCiudad(medico.getDireccion().getCiudad());
 			medicoBd.getDireccion().setPais(medico.getDireccion().getPais());
 			medicoBd.getDireccion().setDetalle(medico.getDireccion().getDetalle());
-			
+
 			medicoRepo.save(medicoBd);
-		
-		}else {
+
+		} else {
 			throw new ObjectNotFoundException("No especificó el id de médico a editar");
 		}
-		
+
 	}
 
 	@Override
 	public void eliminar(Integer id) throws ObjectNotFoundException {
 		if (medicoRepo.validarMedicoPorId(id) > 0) {
 			medicoRepo.deleteById(id);
-		}else {
+		} else {
 			throw new ObjectNotFoundException("No existe un médico con el id ingresado");
 		}
 	}
 
 	@Override
 	public Medico obtenerPorId(Integer id) throws ObjectNotFoundException {
-		Medico medico = medicoRepo.findById(id).orElseThrow(
-				() -> new ObjectNotFoundException("No existe un médico con el id ingresado"));
+		Medico medico = medicoRepo.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("No existe un médico con el id ingresado"));
 		return medico;
 	}
-	
+
+	@Override
+	public Page<Medico> findByNombreIgnoreCase(String nombre, Pageable pageable) {
+		Page<Medico> lista = medicoRepo.findByNombreIgnoreCase(nombre, pageable);
+		return lista;
+	}
+
+	@Override
+	public Page<Medico> findByApellidoIgnoreCase(String apellido, Pageable pageable) {
+		Page<Medico> lista = medicoRepo.findByApellidoIgnoreCase(apellido, pageable);
+		return lista;
+	}
+
+	@Override
+	public Page<Medico> findByCorreoIgnoreCase(String correo, Pageable pageable) {
+		Page<Medico> lista = medicoRepo.findByCorreoIgnoreCase(correo, pageable);
+		return lista;
+	}
+
 }

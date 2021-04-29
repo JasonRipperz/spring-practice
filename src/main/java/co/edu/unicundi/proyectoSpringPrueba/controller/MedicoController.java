@@ -1,8 +1,5 @@
 package co.edu.unicundi.proyectoSpringPrueba.controller;
 
-import java.lang.reflect.Array;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +30,10 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/medicos")
 public class MedicoController {
-	
+
 	@Autowired
 	private IMedicoService medicoService;
-	
-	
+
 	@GetMapping("/listar")
 	public ResponseEntity<Page<Medico>> listar(Pageable pageable) {
 		return new ResponseEntity<Page<Medico>>(medicoService.listar(pageable),
@@ -60,14 +56,34 @@ public class MedicoController {
 	public ResponseEntity<?> editar(@RequestBody Medico medico)
 			throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException {
 		medicoService.editar(medico);
-		return new ResponseEntity<Object>("Médico creado", HttpStatus.OK);
+		return new ResponseEntity<Object>("Médico editado", HttpStatus.OK);
 	}
 
-	
 	@DeleteMapping("eliminar/{id}")
 	public ResponseEntity<?> eliminar(@PathVariable int id) throws ObjectNotFoundException {
 		medicoService.eliminar(id);
 		return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+	}
+
+	@GetMapping("/listarPorNombre")
+	public ResponseEntity<Page<Medico>> listarPorNombre(String nombre, Pageable pageable) {
+		return new ResponseEntity<Page<Medico>>(medicoService.findByNombreIgnoreCase(nombre, pageable),
+				medicoService.findByNombreIgnoreCase(nombre, pageable).getSize() > 0 ? HttpStatus.OK
+						: HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/listarPorApellido")
+	public ResponseEntity<Page<Medico>> listarPorApellido(String apellido, Pageable pageable) {
+		return new ResponseEntity<Page<Medico>>(medicoService.findByApellidoIgnoreCase(apellido, pageable),
+				medicoService.findByApellidoIgnoreCase(apellido, pageable).getSize() > 0 ? HttpStatus.OK
+						: HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/listarPorCorreo")
+	public ResponseEntity<Page<Medico>> listarPorCorreo(String correo, Pageable pageable) {
+		return new ResponseEntity<Page<Medico>>(medicoService.findByCorreoIgnoreCase(correo, pageable),
+				medicoService.findByCorreoIgnoreCase(correo, pageable).getSize() > 0 ? HttpStatus.OK
+						: HttpStatus.NO_CONTENT);
 	}
 
 }
