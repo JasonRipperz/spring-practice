@@ -33,6 +33,7 @@ public class ConsultaService implements IConsultaService {
 		Page<Consulta> listaConsulta =  consultaRepo.findAll(pageable);
 		for (Consulta consulta : listaConsulta) {
 			consulta.setDetalleConsulta(null);
+			consulta.getMedico().setDireccion(null);
 		}
 		return listaConsulta;
 	}
