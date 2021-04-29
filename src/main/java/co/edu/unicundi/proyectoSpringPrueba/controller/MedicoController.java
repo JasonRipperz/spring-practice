@@ -85,5 +85,32 @@ public class MedicoController {
 				medicoService.findByCorreoIgnoreCase(correo, pageable).getSize() > 0 ? HttpStatus.OK
 						: HttpStatus.NO_CONTENT);
 	}
-
+	
+	@GetMapping("/listarPorDireccionPais")
+	public ResponseEntity<Page<Medico>> listarPorDireccionPais(String pais, Pageable pageable) {
+		return new ResponseEntity<Page<Medico>>(medicoService.findByDireccion_pais(pais, pageable),
+				medicoService.findByDireccion_pais(pais, pageable).getSize() > 0 ? HttpStatus.OK
+						: HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/listarPorDireccionCiudad")
+	public ResponseEntity<Page<Medico>> listarPorDireccionCiudad(String ciudad, Pageable pageable) {
+		return new ResponseEntity<Page<Medico>>(medicoService.findByDireccion_ciudad(ciudad, pageable),
+				medicoService.findByDireccion_ciudad(ciudad, pageable).getSize() > 0 ? HttpStatus.OK
+						: HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/listarPorDireccionBarrio")
+	public ResponseEntity<Page<Medico>> listarPorDireccionBarrio(String barrio, Pageable pageable) {
+		return new ResponseEntity<Page<Medico>>(medicoService.findByDireccion_barrio(barrio, pageable),
+				medicoService.findByDireccion_barrio(barrio, pageable).getSize() > 0 ? HttpStatus.OK
+						: HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/listarPorDireccionDetalle")
+	public ResponseEntity<Page<Medico>> listarPorDireccionDetalle(String detalle, Pageable pageable) {
+		return new ResponseEntity<Page<Medico>>(medicoService.findByDireccion_detalle(detalle, pageable),
+				medicoService.findByDireccion_detalle(detalle, pageable).getSize() > 0 ? HttpStatus.OK
+						: HttpStatus.NO_CONTENT);
+	}
 }

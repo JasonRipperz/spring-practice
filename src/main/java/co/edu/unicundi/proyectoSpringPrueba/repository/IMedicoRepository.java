@@ -23,15 +23,11 @@ public interface IMedicoRepository extends JpaRepository<Medico, Integer>, Pagin
 	 
 	 public Page<Medico> findByCorreoIgnoreCase(String correo, Pageable pageable);
 	 
-	 
-	 //findByAutores_nombreAndCategoria_nombre(String autor, String categoria);
-	//FindBy Ordenar Ignorar Mayusculas Minusculas
-		//Direccion detalle 
-		//Direccion Ciudad
-		//Direccion Pais
-		//Direccion barrio
-	 
-	 
-	 //public  Page<Consulta> findByDetalleConsulta_diagnostico(String diagnostico, Pageable pageable);
-	 
+	 public  Page<Medico> findByDireccion_paisIgnoreCase(String pais, Pageable pageable);
+	 	
+	 public  Page<Medico> findByDireccion_ciudadIgnoreCase(String ciudad, Pageable pageable);
+		
+	 public  Page<Medico> findByDireccion_barrioIgnoreCase(String barrio, Pageable pageable);
+		
+	 public  Page<Medico> findByDireccion_detalleIgnoreCase(String detalle, Pageable pageable);
 }

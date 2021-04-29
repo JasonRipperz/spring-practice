@@ -101,4 +101,28 @@ public class MedicoService implements IMedicoService {
 		return lista;
 	}
 
+	@Override
+	public Page<Medico> findByDireccion_pais(String pais, Pageable pageable) {
+		Page<Medico> lista = medicoRepo.findByDireccion_paisIgnoreCase(pais, pageable);
+		return lista;
+	}
+
+	@Override
+	public Page<Medico> findByDireccion_ciudad(String ciudad, Pageable pageable) {
+		Page<Medico> lista = medicoRepo.findByDireccion_ciudadIgnoreCase(ciudad, pageable);
+		return lista;
+	}
+
+	@Override
+	public Page<Medico> findByDireccion_barrio(String barrio, Pageable pageable) {
+		Page<Medico> lista = medicoRepo.findByDireccion_barrioIgnoreCase(barrio, pageable);
+		return lista;
+	}
+
+	@Override
+	public Page<Medico> findByDireccion_detalle(String detalle, Pageable pageable) {
+		Page<Medico> lista = medicoRepo.findByDireccion_detalleIgnoreCase(detalle, pageable);
+		return lista;
+	}
+
 }

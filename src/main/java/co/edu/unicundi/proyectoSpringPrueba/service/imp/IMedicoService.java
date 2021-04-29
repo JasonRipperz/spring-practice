@@ -18,4 +18,13 @@ public interface IMedicoService extends ICrud<Medico, Integer>  {
 	 public Page<Medico> findByApellidoIgnoreCase(String apellido, Pageable pageable);
 	 
 	 public Page<Medico> findByCorreoIgnoreCase(String correo, Pageable pageable);
+	 
+	 public  Page<Medico> findByDireccion_pais(String pais, Pageable pageable);
+	 
+	 public  Page<Medico> findByDireccion_ciudad(String ciudad, Pageable pageable);
+		
+	 public  Page<Medico> findByDireccion_barrio(String barrio, Pageable pageable);
+		
+	 public  Page<Medico> findByDireccion_detalle(String detalle, Pageable pageable);
+	 
 }
