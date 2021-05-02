@@ -42,6 +42,7 @@ public class Medico {
 	@OneToOne(mappedBy = "medico", cascade =  CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Direccion direccion;
 	
+	@NotNull(message = "La dirección obligatoria")
 	@OneToMany(mappedBy = "medico", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Consulta> consulta;
 

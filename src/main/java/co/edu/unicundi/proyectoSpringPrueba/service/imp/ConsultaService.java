@@ -2,6 +2,7 @@ package co.edu.unicundi.proyectoSpringPrueba.service.imp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -12,9 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import co.edu.unicundi.proyectoSpringPrueba.entity.Consulta;
+import co.edu.unicundi.proyectoSpringPrueba.entity.Medico;
 import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
 import co.edu.unicundi.proyectoSpringPrueba.repository.IConsultaRepository;
+import co.edu.unicundi.proyectoSpringPrueba.repository.IMedicoRepository;
 import co.edu.unicundi.proyectoSpringPrueba.repository.IProfesorRepository;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 
@@ -23,6 +26,9 @@ public class ConsultaService implements IConsultaService {
 
 	@Autowired
 	private IConsultaRepository consultaRepo;
+	
+	@Autowired
+	private IMedicoService medicoRepo;
 
 	public ConsultaService() {
 		// TODO Auto-generated constructor stub
@@ -40,11 +46,16 @@ public class ConsultaService implements IConsultaService {
 
 	/**
 	 * @throws FieldValidationException
+	 * @throws ObjectNotFoundException 
 	 * 
 	 */
 	@Override
-	public void guardar(Consulta consulta) throws RepeatedObjectException, FieldValidationException {
+	public void guardar(Consulta consulta) throws RepeatedObjectException, FieldValidationException, ObjectNotFoundException {
 		consulta.setId(null);
+		Medico medico = medicoRepo.obtenerPorId(consulta.getMedico().getId());
+		
+		consulta.setMedico(medico);
+		
 		if(consulta.getDetalleConsulta() != null) {
 			consulta.getDetalleConsulta().forEach(det -> {
 				det.setConsulta(consulta);
@@ -59,10 +70,10 @@ public class ConsultaService implements IConsultaService {
 	
 		if(consulta.getId() != null) {
 			Consulta consultaBd = obtenerPorId(consulta.getId());
-			
-			consultaBd.setNombreDoctor(consulta.getNombreDoctor());
+			Medico medico = medicoRepo.obtenerPorId(consulta.getMedico().getId());
+			//consultaBd.setNombreDoctor(consulta.getNombreDoctor());
 			consultaBd.setFecha(consulta.getFecha());
-			
+			consultaBd.setMedico(medico);
 			consultaRepo.save(consultaBd);
 		
 		}else {
