@@ -38,11 +38,10 @@ public class Medico {
 	@Column(name = "correo", length = 60, nullable = false)
 	private String correo;	
 	
-	@NotNull(message = "La dirección obligatoria")
+	@NotNull(message = "La dirección es obligatoria")
 	@OneToOne(mappedBy = "medico", cascade =  CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Direccion direccion;
 	
-	@NotNull(message = "La dirección obligatoria")
 	@OneToMany(mappedBy = "medico", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Consulta> consulta;
 

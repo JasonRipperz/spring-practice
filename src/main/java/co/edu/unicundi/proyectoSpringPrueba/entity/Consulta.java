@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "consulta")
@@ -27,12 +28,14 @@ public class Consulta {
 	@Column(name = "nombre_doctor", length = 30, nullable = false)
 	private String nombreDoctor;
 	
+	@NotNull(message = "La fecha es requerida")
 	@Column(name = "fecha", nullable = false)
 	private LocalDateTime fecha;
 	
 	@OneToMany(mappedBy = "consulta", cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<DetalleConsulta> detalleConsulta;
 	
+	@NotNull(message = "El médico es obligatorio")
 	@ManyToOne
 	@JoinColumn(name = "id_medico", nullable = false, foreignKey = @ForeignKey(name = "FK_Medico"))
 	private Medico medico;
