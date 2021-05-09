@@ -8,12 +8,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import co.edu.unicundi.proyectoSpringPrueba.entity.Consulta;
 import co.edu.unicundi.proyectoSpringPrueba.entity.ConsultaExamen;
+import co.edu.unicundi.proyectoSpringPrueba.entity.Examen;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
 import co.edu.unicundi.proyectoSpringPrueba.repository.IConsultaExamenRepo;
 import co.edu.unicundi.proyectoSpringPrueba.service.imp.IConsultaExamenService;
+import co.edu.unicundi.proyectoSpringPrueba.service.imp.IConsultaService;
 
 @Service
 public class ConsultaExamenServiceImpl implements IConsultaExamenService {
@@ -22,7 +25,10 @@ public class ConsultaExamenServiceImpl implements IConsultaExamenService {
 	private IConsultaExamenRepo repo;
 	
 	@Autowired
-	private IConsultaRepository consultaRepo;
+	private IExamenRepository examenRepo;
+	
+	@Autowired
+	private IConsultaService consultaRepo;
 
 	
 	@Override
@@ -62,14 +68,29 @@ public class ConsultaExamenServiceImpl implements IConsultaExamenService {
 	@Override
 	public void editar(ConsultaExamen entity)
 			throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException {
-		consultaRepo.findById(entity.getConsulta().getId());
+		consultaRepo.obtenerPorId(entity.getConsulta().getId());
+		obtenerExamenPorId(entity.getExamen().getId());
+		
 		repo.editar(entity.getConsulta().getId(), entity.getExamen().getId(), entity.getInfoAdicional());
 	}
 
 	@Override
 	public void eliminar(Integer id) throws ObjectNotFoundException {
-		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void eliminarNativo(Integer idConsulta, Integer idExamen) throws ObjectNotFoundException {
+		if (repo.validarConsultaPorId(idConsulta, idExamen) > 0) {
+			repo.eliminar(idConsulta, idExamen);
+		}else {
+			throw new ObjectNotFoundException("Verifique que la consulta exista y que tenga el examen asociado");
+		}
+	}
+	public Examen obtenerExamenPorId(Integer id) throws ObjectNotFoundException {
+		Examen examen = examenRepo.findById(id).orElseThrow(
+				() -> new ObjectNotFoundException("No existe un examen con el id ingresado"));
+		return examen;
 	}
 
 }

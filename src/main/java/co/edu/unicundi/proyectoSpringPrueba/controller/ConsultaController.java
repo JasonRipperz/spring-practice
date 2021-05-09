@@ -115,6 +115,12 @@ public class ConsultaController {
 			return new ResponseEntity<Object>("consulta examen editado", HttpStatus.CREATED);				
 	}	
 	
+	@DeleteMapping("eliminarConsultaExamen/{idConsulta}/{idExamen}")
+	public ResponseEntity<?> eliminarConsultaExamen(@PathVariable int idConsulta, @PathVariable int idExamen) throws ObjectNotFoundException {
+		consultaExamenService.eliminarNativo(idConsulta, idExamen);
+		return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
+	}
+	
 	@GetMapping("/listarCEPorIdConsulta/{id}")
 	public ResponseEntity<?> listarCEPorIdConsulta(@PathVariable int id) throws ObjectNotFoundException  {
 			List<ConsultaExamen> lista = consultaExamenService.listarPorIdConsulta(id);
@@ -127,5 +133,7 @@ public class ConsultaController {
 			@PathVariable int size ) throws ObjectNotFoundException  {
 			Page<ConsultaExamen> lista = consultaExamenService.listarPorIdConsultaPaginado(id, page, size);
 			return new ResponseEntity<Page<ConsultaExamen>>(lista, HttpStatus.OK);			
-	}		
+	}
+	
+	
 }
