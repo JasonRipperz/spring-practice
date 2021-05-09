@@ -11,24 +11,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 
 import co.edu.unicundi.proyectoSpringPrueba.dto.ExceptionResponse;
 import co.edu.unicundi.proyectoSpringPrueba.entity.Consulta;
+import co.edu.unicundi.proyectoSpringPrueba.entity.ConsultaExamen;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
+import co.edu.unicundi.proyectoSpringPrueba.service.imp.IConsultaExamenService;
 import co.edu.unicundi.proyectoSpringPrueba.service.imp.IConsultaService;
-import co.edu.unicundi.proyectoSpringPrueba.service.imp.IProfesorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
@@ -41,6 +39,9 @@ public class ConsultaController {
 
 	@Autowired
 	private IConsultaService consultaService;
+	
+	@Autowired
+	private IConsultaExamenService consultaExamenService;
 
 	@ApiOperation(value = "Listar todas las consultas", notes = "Servicio para listar todas los consultas")
 	@ApiResponses(value = {
@@ -101,4 +102,30 @@ public class ConsultaController {
 		return new ResponseEntity<Page<Consulta>>(consultaService.findByDetalleConsulta_diagnostico(diagnostico, pageable),
 				consultaService.listar(pageable).getSize() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
 	}
+	
+	@PostMapping("/guardarConsultaExamenNativo")
+	public ResponseEntity<?> guardarConsultaExamenNativo(@Valid @RequestBody ConsultaExamen consultaExamen) {	
+			consultaExamenService.guardarNativo(consultaExamen);
+			return new ResponseEntity<Object>("Consulta examen creado", HttpStatus.CREATED);				
+	}	
+	
+	@PutMapping("/editarConsultaExamenNativo")
+	public ResponseEntity<?> editarConsultaExamenNativo(@Valid @RequestBody ConsultaExamen consultaExamen) throws RepeatedObjectException, ObjectNotFoundException, FieldValidationException {	
+			consultaExamenService.editar(consultaExamen);
+			return new ResponseEntity<Object>("consulta examen editado", HttpStatus.CREATED);				
+	}	
+	
+	@GetMapping("/listarCEPorIdConsulta/{id}")
+	public ResponseEntity<?> listarCEPorIdConsulta(@PathVariable int id) throws ObjectNotFoundException  {
+			List<ConsultaExamen> lista = consultaExamenService.listarPorIdConsulta(id);
+			return new ResponseEntity<List<ConsultaExamen>>(lista, HttpStatus.OK);			
+	}	
+	
+	@GetMapping("/listarCEPorIdCosnultaPaginado/{id}/{page}/{size}")
+	public ResponseEntity<?> listarCEPorIdConsultaPaginado(@PathVariable int id,
+			@PathVariable int page,
+			@PathVariable int size ) throws ObjectNotFoundException  {
+			Page<ConsultaExamen> lista = consultaExamenService.listarPorIdConsultaPaginado(id, page, size);
+			return new ResponseEntity<Page<ConsultaExamen>>(lista, HttpStatus.OK);			
+	}		
 }
