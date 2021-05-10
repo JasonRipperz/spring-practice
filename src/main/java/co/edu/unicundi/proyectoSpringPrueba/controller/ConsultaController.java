@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.unicundi.proyectoSpringPrueba.dto.ExceptionResponse;
 import co.edu.unicundi.proyectoSpringPrueba.entity.Consulta;
 import co.edu.unicundi.proyectoSpringPrueba.entity.ConsultaExamen;
+import co.edu.unicundi.proyectoSpringPrueba.entity.Vista;
 import co.edu.unicundi.proyectoSpringPrueba.exception.FieldValidationException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.ObjectNotFoundException;
 import co.edu.unicundi.proyectoSpringPrueba.exception.RepeatedObjectException;
 import co.edu.unicundi.proyectoSpringPrueba.service.imp.IConsultaExamenService;
 import co.edu.unicundi.proyectoSpringPrueba.service.imp.IConsultaService;
+import co.edu.unicundi.proyectoSpringPrueba.service.imp.IVistaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
@@ -43,6 +45,10 @@ public class ConsultaController {
 	@Autowired
 	private IConsultaExamenService consultaExamenService;
 
+	@Autowired
+	private IVistaService vistaService;
+
+	
 	@ApiOperation(value = "Listar todas las consultas", notes = "Servicio para listar todas los consultas")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "OK. Se obtienen correctamente los datos", response = List.class),
@@ -127,7 +133,7 @@ public class ConsultaController {
 			return new ResponseEntity<List<ConsultaExamen>>(lista, HttpStatus.OK);			
 	}	
 	
-	@GetMapping("/listarCEPorIdCosnultaPaginado/{id}/{page}/{size}")
+	@GetMapping("/listarCEPorIdConsultaPaginado/{id}/{page}/{size}")
 	public ResponseEntity<?> listarCEPorIdConsultaPaginado(@PathVariable int id,
 			@PathVariable int page,
 			@PathVariable int size ) throws ObjectNotFoundException  {
@@ -135,5 +141,9 @@ public class ConsultaController {
 			return new ResponseEntity<Page<ConsultaExamen>>(lista, HttpStatus.OK);			
 	}
 	
-	
+	@GetMapping("/listarVista")
+	public ResponseEntity<Page<Vista>> listarVista(Pageable pageable) {
+		return new ResponseEntity<Page<Vista>>(vistaService.listar(pageable),
+				vistaService.listar(pageable).getSize() > 0 ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+	}
 }

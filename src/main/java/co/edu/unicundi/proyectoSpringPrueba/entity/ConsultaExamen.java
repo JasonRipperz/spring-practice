@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "consulta_examen")
 @IdClass(ConsultaExamenPK.class)
@@ -19,11 +21,12 @@ public class ConsultaExamen {
 	
 	@Column(name = "infoAdicional")
 	private String infoAdicional;
-
+	
+	@JsonIgnore
 	public Consulta getConsulta() {
 		return consulta;
 	}
-
+	
 	public void setConsulta(Consulta consulta) {
 		this.consulta = consulta;
 	}
