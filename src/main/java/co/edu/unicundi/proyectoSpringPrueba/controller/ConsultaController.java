@@ -121,6 +121,13 @@ public class ConsultaController {
 			return new ResponseEntity<Object>("consulta examen editado", HttpStatus.CREATED);				
 	}	
 	
+	@PostMapping("/guardarCE")
+	public ResponseEntity<?> guardarCE(@Valid @RequestBody ConsultaExamen consulta)
+			throws RepeatedObjectException, FieldValidationException, ObjectNotFoundException {
+		consultaExamenService.guardar(consulta);
+		return new ResponseEntity<Object>("Consulta creada", HttpStatus.CREATED);
+	}
+	
 	@DeleteMapping("eliminarConsultaExamen/{idConsulta}/{idExamen}")
 	public ResponseEntity<?> eliminarConsultaExamen(@PathVariable int idConsulta, @PathVariable int idExamen) throws ObjectNotFoundException {
 		consultaExamenService.eliminarNativo(idConsulta, idExamen);

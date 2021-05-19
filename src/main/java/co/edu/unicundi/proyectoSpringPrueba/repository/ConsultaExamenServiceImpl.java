@@ -61,8 +61,7 @@ public class ConsultaExamenServiceImpl implements IConsultaExamenService {
 	@Override
 	public void guardar(ConsultaExamen entity)
 			throws RepeatedObjectException, FieldValidationException, ObjectNotFoundException {
-		// TODO Auto-generated method stub
-		
+		repo.save(entity);
 	}
 
 	@Override
