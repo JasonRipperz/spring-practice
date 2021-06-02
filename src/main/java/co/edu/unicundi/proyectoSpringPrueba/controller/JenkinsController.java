@@ -42,7 +42,7 @@ public class JenkinsController {
 	
 	@GetMapping("/jenkins1")
 	public ResponseEntity<?> pruebaUno() {
-		return new ResponseEntity<Object>("Hola Tomcat 18/05", HttpStatus.OK);
+		return new ResponseEntity<Object>("Hola Tomcat 02/Junio", HttpStatus.OK);
 	}
 
 	
